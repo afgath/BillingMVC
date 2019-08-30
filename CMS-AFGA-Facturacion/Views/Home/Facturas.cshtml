@@ -1,0 +1,41 @@
+﻿@model List<CMS_AFGA_Facturacion.Models.Factura_Encabezado>
+
+@{
+    ViewBag.Title = "Facturas";
+    List<CMS_AFGA_Facturacion.Models.Factura_Encabezado> facturasDeCliente = ViewBag.ProductosElegidos;
+    int cliente = ViewBag.Cliente;
+}
+
+
+<h2 class="page-header">
+    <a href="~/home/NuevaFacturaEncabezado/@cliente" class="btn btn-default pull-right">Nueva factura para este cliente</a>
+    <a href="~/home/" class="btn btn-default pull-right">Volver a la selección de clientes</a>
+</h2>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Factura</th>
+            <th style="width:200px;">Nombre</th>
+            <th style="width:200px;">Dirección</th>
+            <th style="width:200px;">Teléfono</th>
+            <th style="width:200px;"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var m in facturasDeCliente)
+        {
+            <tr>
+                <td>@(m.Factura_EncabezadoFecha)</td>
+                <td>@(m.Cliente.ClienteNombre)</td>
+                <td>@m.Cliente.ClienteDireccion</td>
+                <td>@m.Cliente.ClienteTelefono</td>
+                <td>@m.Factura_EncabezadoId</td>
+                <td>
+                    <a class="btn btn-xs btn-primary" href="~/home/NuevaFactura/@m.Factura_EncabezadoId">Añadir productos/Visualizar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

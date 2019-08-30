@@ -1,0 +1,93 @@
+﻿@model CMS_AFGA_Facturacion.Models.Factura_Detalle
+@{
+    List<CMS_AFGA_Facturacion.Models.Articulo> articulos = ViewBag.Articulos;
+    List<CMS_AFGA_Facturacion.Models.Factura_Detalle> FacturaDetalle = ViewBag.facturas_detalle;
+    CMS_AFGA_Facturacion.Models.Factura_Encabezado factura_Encabezado = ViewBag.Factura_Encabezado;
+    decimal valorTotal = ViewBag.totalAPagar;
+}
+
+<h2 class="page-header">
+    <a href="~/home/" class="btn btn-default pull-right">Volver a la selección de clientes</a>
+    Factura
+</h2>
+<hr />
+@if (articulos.Count > 0)
+{
+    using (Html.BeginForm("CrearFactura", "Home", FormMethod.Post, new { id = "frm-factura" }))
+    {
+        @Html.HiddenFor(x => x.Factura_EncabezadoId)
+        <div class="form-group" style="align-content">
+            <label>Seleccione un curso</label>
+            <select class="form-control" name="ArticuloId">
+                @foreach (var c in articulos)
+                {
+                    <option value="@c.ArticuloId">@c.ArticuloNombre</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Cantidad</label>
+            @Html.TextBoxFor(x => x.Factura_DetalleCantidad, new { @class = "form-control"})
+            @Html.ValidationMessageFor(x => x.Factura_DetalleCantidad, null, new { @class = "label label-danger" })
+        </div>
+
+        <div class="text-right" id="button_nueva_factura">
+            <button onclick="CargarFactura()" data-ajax="true" data-confirm="¿Esta seguro de asignar este articulo a la factura?" type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+
+    }
+    <hr />
+}
+
+<!-- Encabezado Factura -->
+<table class="table">
+    <thead>
+        <tr>
+            <th>@factura_Encabezado.Factura_EncabezadoFecha</th>
+            <th style="width:200px;">@factura_Encabezado.Cliente.ClienteNombre</th>
+            <th style="width:200px;">@factura_Encabezado.Cliente.ClienteDireccion</th>
+            <th style="width:200px;">@factura_Encabezado.Cliente.ClienteTelefono</th>
+        </tr>
+    </thead>
+
+</table>
+<hr />
+
+<!-- Cuerpo Factura -->
+<table class="table">
+    <thead>
+        <tr>
+            <th>Articulo</th>
+            <th style="width:200px;">Precio Unidad</th>
+            <th style="width:200px;">Cantidad</th>
+            <th style="width:200px;">Precio Total</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var c in FacturaDetalle)
+        {
+            <tr>
+                <td>@(c.Articulo.ArticuloNombre)</td>
+                <td>@(c.Articulo.ArticuloValor)</td>
+                <td>@(c.Factura_DetalleCantidad)</td>
+                <td id="total_producto">@(c.Factura_DetalleCantidad * c.Articulo.ArticuloValor)</td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Cálculo del valor a pagar -->
+<ul class="list-group">
+
+    <li class="list-group-item">Total a pagar: <span class="badge pull-right">@(valorTotal)</span></li>
+
+</ul>
+
+<script>
+    $(document).ready(function () {
+        $.validator.unobtrusive.parse("#frm-factura");
+    });
+
+</script>

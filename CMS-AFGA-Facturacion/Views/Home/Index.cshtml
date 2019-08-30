@@ -1,0 +1,37 @@
+﻿@model List<CMS_AFGA_Facturacion.Models.Cliente>
+
+@{
+    ViewBag.Title = "Clientes";
+}
+
+<!--
+<h2 class="page-header">
+    <a href="~/home/crud" class="btn btn-default pull-right">Nuevo alumno</a>
+    Alumnos
+</h2>
+-->
+<hr/>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th style="width:200px;">Teléfono</th>
+            <th style="width:200px;">Dirección</th>
+            <th style="width:200px;"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var m in Model)
+        {
+        <tr>
+            <td>@(m.ClienteNombre)</td>
+            <td>@(m.ClienteTelefono)</td>
+            <td>@m.ClienteDireccion</td>
+            <td>
+                <a class="btn btn-xs btn-primary" href="~/home/NuevaFacturaEncabezado/@m.ClienteId">Añadir Factura</a>
+                <a class="btn btn-xs btn-default" href="~/home/Facturas/@m.ClienteId">Ver facturas</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,18 @@
+﻿@model CMS_AFGA_Facturacion.Models.Factura_Encabezado
+@{
+    ViewBag.Title = "Nueva Factura";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int encabezadoId = ViewBag.EncabezadoId;
+}
+
+<script>
+
+    function pageRedirect() {
+      url = "~/home/NuevaFactura/@encabezadoId";
+      $(location).attr("href", url);
+    });
+
+
+</script>
+
